@@ -9,7 +9,7 @@ enum SortBy {
 
 export default function Home() {
   const searchParams = useSearchParams();
-  const by/*: SortBy | null*/ = searchParams.get('by');
+  const by = searchParams.get('by') || 'newest';
 
   return (
     <main>

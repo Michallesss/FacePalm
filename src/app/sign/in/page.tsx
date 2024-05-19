@@ -1,26 +1,39 @@
 'use client';
-import React, { useState } from 'react';
 import Form from '@/layouts/Form';
 import Input from '@/components/Input';
+import { useFormState } from "react-dom";
+import { loginUserAction } from "@/actions/auth-actions";
+import { ZodErrors } from "@/components/ZodErrors";
+import { StrapiErrors } from "@/components/StrapiErrors";
+import { SubmitButton } from "@/components/SubmitButton";
+
+const INITIAL_STATE = {
+  zodErrors: null,
+  strapiErrors: null,
+  data: null,
+  message: null,
+};
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // useSignIn({ email, password });
-  };
+  const [formState, formAction] = useFormState(loginUserAction, INITIAL_STATE);
 
   return (
-    <Form title="Sign In to your account" onSubmit={onSubmit}>
-      <Input label="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required />
+    <Form title="Sign In to your account" action={formAction}>
+      <Input label="Username or email" name='identifier' type="text" autoComplete="email" required />
+      <ZodErrors error={formState?.zodErrors?.identifier} />
 
-      <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required link="forgot" linkLabel='Forgot password?'/>
+      <Input label="Password" name='password' type="password" autoComplete="current-password" required link="forgot" linkLabel='Forgot password?'/>
+      <ZodErrors error={formState.zodErrors?.password} />
 
       <div>
-        <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign In</button>
+        <SubmitButton
+          className="w-full"
+          text="Sign In"
+          loadingText="Loading"
+        />
       </div>
+
+      <StrapiErrors error={formState?.strapiErrors} />
 
       <p className="mt-10 text-center text-sm text-gray-500">
         You&aposre new? {" "}

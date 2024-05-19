@@ -2,6 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Post from "@/components/Post";
+import loadPosts from "@/functions/loadPosts";
 
 type By = 'newest' | 'liked' | 'commented' | any;
 

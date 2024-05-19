@@ -1,29 +1,42 @@
 'use client';
-import React, { useState } from 'react';
 import Form from '@/layouts/Form';
 import Input from '@/components/Input';
+import { SubmitButton } from "@/components/SubmitButton";
+
+import { registerUserAction } from "@/actions/auth-actions";
+import { useFormState } from 'react-dom';
+
+import { ZodErrors } from "@/components/ZodErrors";
+import { StrapiErrors } from "@/components/StrapiErrors";
+
+const INITIAL_STATE = {
+  data: null,
+};
 
 export default function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formState, formAction] = useFormState(
+    registerUserAction, 
+    INITIAL_STATE
+  );
 
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // useSignUp({ name, email, password });
-  };
+  // console.log(formState);
 
   return (
-    <Form title="Sign Up to Facepalm" onSubmit={onSubmit}>
-      <Input label="Username" type='text' value={name} onChange={(e) => setName(e.target.value)} autoComplete="username" required />
+    <Form title="Sign Up to Facepalm" action={formAction}>
+      <Input label="Username" name="username" type='text' autoComplete="username" required />
+      <ZodErrors error={formState?.zodErrors?.username} />
 
-      <Input label="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required />
+      <Input label="Email address" name="email" type="email" autoComplete="email" required />
+      <ZodErrors error={formState?.zodErrors?.email} />
 
-      <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
+      <Input label="Password" name="password" type="password" autoComplete="current-password" required />
+      <ZodErrors error={formState?.zodErrors?.password} />
 
       <div>
-        <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign Up</button>
+      <SubmitButton className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" text="Sign Up" loadingText="Loading" />
       </div>
+
+      <StrapiErrors error={formState?.strapiErrors} />
 
       <p className="mt-10 text-center text-sm text-gray-500">
         Already a member? {" "}

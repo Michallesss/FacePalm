@@ -1,6 +1,6 @@
-type FormProps = { children: React.ReactNode, title: string, onSubmit: (e: React.SyntheticEvent) => void};
+type FormProps = { children: React.ReactNode, title: string, action: any };
 
-export default function Form({ children, title, onSubmit }: FormProps) {
+export default function Form({ children, title, action }: FormProps) {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -9,7 +9,7 @@ export default function Form({ children, title, onSubmit }: FormProps) {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={onSubmit}>
+        <form className="space-y-6" action={action}>
           {children}
         </form>
       </div>

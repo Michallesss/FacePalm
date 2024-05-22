@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project supported on back with [Strapi](https://strapi.io/).
 
-## Getting Started
+## Getting Started  
+### Frontend:
+NextJs framework
 
-First, run the development server:
-
+##### Select folder
 ```bash
+cd ../facepalm
+```
+
+##### Install modules
+```bash
+npm install
+# or
+npm i
+```
+
+##### Build project
+```bash 
+npm run build
+```
+
+##### Start project
+```bash
+npm run start
+# on in dev version (no need to build)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
 To learn more about Next.js, take a look at the following resources:
-
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Backend:
+Strapi application programming interface
 
-## Deploy on Vercel
+##### Install strapi
+```bash 
+npx create-strapi-app@latest facepalm
+# quick start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##### Import backup
+```bash
+npm run strapi import -f file_name
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+##### Run strapi
+```bash
+npm run start
+# or in dev version
+npm run develop
+```
+
+Open [http://localhost:1337](http://localhost:1337) with your browser to see the result.
+
+To learn more about strapi, take a look at the following resources:
+- [Strapi Documentation](https://docs.strapi.io/) - learn how Strapi works.
+- [Strapi Intro](https://docs.strapi.io/user-docs/intro) - strapi tutorial.

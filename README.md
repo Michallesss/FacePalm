@@ -45,7 +45,7 @@ npx create-strapi-app@latest facepalm
 
 ##### Import backup
 ```bash
-npm run strapi import -f file_name
+npm run strapi import -- -f file_name -k encryption_key
 ```
 
 ##### Run strapi

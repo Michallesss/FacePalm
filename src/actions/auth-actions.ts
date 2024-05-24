@@ -3,18 +3,15 @@ import { z } from "zod";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import {
-  registerUserService,
-  loginUserService,
-} from "@/services/auth-service";
-
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  domain: process.env.NEXT_PUBLIC_API_URL ?? "localhost",
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-};
+import { registerUserService, loginUserService } from "@/services/auth-service";
+import { config } from "./config";
+// const config = {
+//   maxAge: 60 * 60 * 24 * 7, // 1 week
+//   path: "/",
+//   domain: process.env.NEXT_PUBLIC_API_URL ?? "localhost",
+//   httpOnly: true,
+//   secure: process.env.NODE_ENV === "production",
+// };
 
 const schemaRegister = z.object({
   username: z.string().min(3).max(20, {

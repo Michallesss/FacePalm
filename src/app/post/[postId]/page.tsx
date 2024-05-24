@@ -1,22 +1,28 @@
-'use client';
-import { useState } from 'react';
-import { useParams } from 'next/navigation'
+'use server';
 import Comment from '@/components/Comment';
+import { createCommentAction } from '@/actions/comment-actions';
+import { useFormState } from 'react-dom';
+import { ZodErrors } from '@/components/ZodErrors';
+import { StrapiErrors } from '@/components/StrapiErrors';
+import { SubmitButton } from '@/components/SubmitButton';
 
-export default function Post() { // https://flowbite.com/blocks/publisher/blog-templates/
-  const params = useParams();
-  const [comment, setComment] = useState('');
+const INITIAL_STATE = {
+  zodErrors: null,
+  strapiErrors: null,
+  data: null,
+  message: null,
+}
+
+type PostParams = { params: { postId: string} };
+
+export default async function Post({ params }: PostParams) { // https://flowbite.com/blocks/publisher/blog-templates/
+  const [formState, formAction] = useFormState(createCommentAction, INITIAL_STATE);
 
   const content = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, animi? Esse omnis assumenda voluptas tenetur minus sequi cum nemo numquam debitis voluptatibus non porro reiciendis sapiente, repellat possimus impedit quaerat?";
   const author = { name: "Jese Leos", avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg" };
   const date = "Feb. 8, 2022";
   const title = "Best practices for successful prototypes";
   const commentsCount = 3;
-
-  function onSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
-    // ...
-  }
 
   // return <h1>Post: {params.postId}</h1>;
   return (
@@ -64,29 +70,34 @@ export default function Post() { // https://flowbite.com/blocks/publisher/blog-t
                 Discussion ({commentsCount})
               </h2>
             </div>
-            <form className="mb-6" onSubmit={onSubmit}>
+            <form className="mb-6" action={createCommentAction}>
+              <input type='hidden' name='postId' id='postId' value={params.postId} />
+
               <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <label htmlFor="comment" className="sr-only">
                   Your comment
                 </label>
                 <textarea
-                  id="comment"
+                  id="content"
+                  name="content"
                   rows={6}
                   className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                   placeholder="Write a comment..."
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
                   required
                   defaultValue={""}
                 />
+                <ZodErrors error={formState?.zodErrors?.content} />
               </div>
-              <button
-                type="submit"
+
+              <SubmitButton
+                text='Post comment'
+                loadingText='Loading'
                 className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-              >
-                Post comment
-              </button>
+              />
+              <StrapiErrors error={formState?.strapiErrors} />
+
             </form>
+            {/* {.map((comment, index) => ())} */}
             <Comment content='lorem ipsum' date='Feb. 8, 2022' author={{ id: "-1", name: "Michael Gough", avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg" }} />
             <Comment content='ipsum lorem' date='Mar. 12, 2022' author={{ id: "-1", name: "Bonnie Green", avatar: "https://flowbite.com/docs/images/people/profile-picture-3.jpg" }} />
             <Comment content='lorem ipsum chuj' date='Jun. 23, 2022' author={{ id: "-1", name: "Helene Engels", avatar: 'https://flowbite.com/docs/images/people/profile-picture-4.jpg' }} />

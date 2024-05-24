@@ -1,9 +1,12 @@
-'use client';
-import { useParams } from 'next/navigation'
+'use server';
 
-export default function Profile() {
-  const params = useParams();
+interface ProfileParams {
+  params: { 
+    userId: string 
+  } 
+};
 
+export default function Profile({ params }: ProfileParams) {
   return (
     <div>
       <h1>Profile: {params.userId}</h1>

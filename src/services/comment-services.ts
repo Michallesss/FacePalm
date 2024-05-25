@@ -25,15 +25,10 @@ export async function createCommentService(commentData: CommentProps) {
     return response.json();
   } catch (error) {
     console.error("Create Comment Service Error:", error);
+    // throw error;
   }
 }
 
 export async function getCommentsService(postId: string) {
-  const url = new URL("/api/comments", baseUrl);
-
-  try {
-    const response = await fetch(url, {});
-  } catch (error) {
-    console.error("Get Comments Service Error:", error);
-  }
+  
 }

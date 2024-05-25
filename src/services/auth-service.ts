@@ -27,6 +27,7 @@ export async function registerUserService(userData: RegisterUserProps) {
     return response.json();
   } catch (error) {
     console.error("Registration Service Error:", error);
+    // throw error;
   }
 }
 
@@ -46,6 +47,6 @@ export async function loginUserService(userData: LoginUserProps) {
     return response.json();
   } catch (error) {
     console.error("Login Service Error:", error);
-    throw error;
+    // throw error;
   }
 }

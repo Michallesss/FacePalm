@@ -28,6 +28,7 @@ export async function createPostService(postData: PostProps) {
     return response.json();
   } catch (error) {
     console.error("Create Post Service Error:", error);
+    // throw error;
   }
 }
 

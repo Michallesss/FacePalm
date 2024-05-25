@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getUserMeLoader } from "@/services/get-user-me-loader";
-import { use } from "react";
 
 export async function middleware(request: NextRequest) {
   const user = await getUserMeLoader();

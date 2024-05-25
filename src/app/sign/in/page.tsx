@@ -36,7 +36,7 @@ export default function SignIn() {
       <StrapiErrors error={formState?.strapiErrors} />
 
       <p className="mt-10 text-center text-sm text-gray-500">
-        You&aposre new? {" "}
+        You&apos;re new? {" "}
         <a href="up" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign Up</a>
       </p>
     </Form>

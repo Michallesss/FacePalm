@@ -15,7 +15,8 @@ const schemaPost = z.object({
   date: z.date().default(() => new Date()),
   views: z.number().default(0),
   likes: z.number().default(0),
-  comments: z.array(z.string()).default([]),
+  comments: z.array(z.number()).default([]),
+  reactions: z.array(z.number()).default([]),
 });
 
 export async function createPostAction(prevState: any, formData: FormData) {
@@ -36,6 +37,7 @@ export async function createPostAction(prevState: any, formData: FormData) {
     views: 0,
     likes: 0,
     comments: [],
+    reactions: [],
   });
 
   if (!validatedFields.success) {

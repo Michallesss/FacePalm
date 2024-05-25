@@ -8,7 +8,8 @@ interface PostProps {
   date: Date;
   views: number;
   likes: number;
-  comments: string[];
+  comments: number[];
+  reactions: number[];
 };
 
 const baseUrl = process.env.API_URL;

@@ -1,4 +1,4 @@
-'use server';
+'use client';
 import Comment from '@/components/Comment';
 import { createCommentAction } from '@/actions/comment-actions';
 import { useFormState } from 'react-dom';
@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 
 type PostParams = { params: { postId: string} };
 
-export default async function Post({ params }: PostParams) { // https://flowbite.com/blocks/publisher/blog-templates/
+export default function Post({ params }: PostParams) { // https://flowbite.com/blocks/publisher/blog-templates/
   const [formState, formAction] = useFormState(createCommentAction, INITIAL_STATE);
 
   const content = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, animi? Esse omnis assumenda voluptas tenetur minus sequi cum nemo numquam debitis voluptatibus non porro reiciendis sapiente, repellat possimus impedit quaerat?";
@@ -70,7 +70,7 @@ export default async function Post({ params }: PostParams) { // https://flowbite
                 Discussion ({commentsCount})
               </h2>
             </div>
-            <form className="mb-6" action={createCommentAction}>
+            <form className="mb-6" action={formAction}>
               <input type='hidden' name='postId' id='postId' value={params.postId} />
 
               <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">

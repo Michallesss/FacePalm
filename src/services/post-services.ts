@@ -1,7 +1,8 @@
 'use server';
+import { getAuthToken } from "@/services/get-token";
 
 interface PostProps {
-  author: string;
+  author: number;
   title: string;
   content: string;
   date: Date;
@@ -10,18 +11,20 @@ interface PostProps {
   comments: string[];
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.API_URL;
 
 export async function createPostService(postData: PostProps) {
   const url = new URL("/api/posts", baseUrl);
+  const authToken = await getAuthToken();
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ ...postData }),
+      body: JSON.stringify({ data: { ...postData }}),
       cache: "no-cache",
     });
 

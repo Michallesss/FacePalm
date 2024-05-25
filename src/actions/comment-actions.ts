@@ -1,12 +1,11 @@
 'use server';
 import { z } from 'zod';
-import { cookies } from 'next/headers';
 import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createCommentService } from '@/services/comment-services';
-import { config } from './config';
+import { redirect } from 'next/navigation';
 
 const schemaComment = z.object({
-  author: z.string(),
+  author: z.number(),
   content: z.string().min(1).max(512, {
     message: 'Content must be between 1 and 512 characters',
   }),
@@ -25,7 +24,7 @@ export async function createCommentAction(prevState: any, formData: FormData) {
   };
 
   const validatedFields = schemaComment.safeParse({
-    author: user.data.id,
+    author: user.data.id, // !!! DO NOT SET JWT HERE !!!
     content: formData.get('content'),
     date: new Date(),
     post:  formData.get('postId'), // ?? Not really secure
@@ -60,5 +59,5 @@ export async function createCommentAction(prevState: any, formData: FormData) {
     };
   }
 
-  cookies().set('jwt', responseData.jwt, config);
+  return redirect(`/post/${validatedFields.data.post}`); // for reload page
 };

@@ -1,12 +1,11 @@
 'use server';
 import { z } from 'zod';
-import { cookies } from 'next/headers';
 import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createPostService } from '@/services/post-services';
-import { config } from './config';
+import { redirect } from 'next/navigation';
 
 const schemaPost = z.object({
-  author: z.string(),
+  author: z.number(),
   title: z.string().min(1).max(64, {
     message: 'Title must be between 1 and 64 characters',
   }),
@@ -21,7 +20,7 @@ const schemaPost = z.object({
 
 export async function createPostAction(prevState: any, formData: FormData) {
   const user = await getUserMeLoader();
-  
+
   if (!user.ok) return {
     ...prevState,
     ZodErrors: null,
@@ -30,13 +29,13 @@ export async function createPostAction(prevState: any, formData: FormData) {
   };
 
   const validatedFields = schemaPost.safeParse({
-    author: user.data.id,
+    author: user.data.id, // !!! NIE DZIAŁĄ !!!
     title: formData.get('title'),
     content: formData.get('content'),
     date: new Date(),
-    // views: 0,
-    // likes: 0,
-    // comments: [],
+    views: 0,
+    likes: 0,
+    comments: [],
   });
 
   if (!validatedFields.success) {
@@ -68,5 +67,5 @@ export async function createPostAction(prevState: any, formData: FormData) {
     };
   }
 
-  cookies().set('jwt', responseData.jwt, config);
+  return redirect(`/post/${responseData.id}`);
 }

@@ -1,7 +1,7 @@
 'use server';
 
 interface CommentProps {
-  author: string;
+  author: number;
   content: string;
   date: Date;
   post: string;

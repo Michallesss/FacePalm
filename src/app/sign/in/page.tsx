@@ -23,7 +23,7 @@ export default function SignIn() {
       <ZodErrors error={formState?.zodErrors?.identifier} />
 
       <Input label="Password" name='password' type="password" autoComplete="current-password" required link="forgot" linkLabel='Forgot password?'/>
-      <ZodErrors error={formState.zodErrors?.password} />
+      <ZodErrors error={formState?.zodErrors?.password} />
 
       <div>
         <SubmitButton

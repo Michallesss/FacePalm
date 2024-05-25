@@ -10,7 +10,10 @@ import { ZodErrors } from "@/components/ZodErrors";
 import { StrapiErrors } from "@/components/StrapiErrors";
 
 const INITIAL_STATE = {
+  ZodErrors: null,
+  StrapiErrors: null,
   data: null,
+  message: null,
 };
 
 export default function SignUp() {

@@ -13,14 +13,16 @@ function Loader({ text }: { readonly text: string }) {
 }
 
 interface SubmitButtonProps {
-  text: string;
-  loadingText: string;
+  text?: string;
+  children?: React.ReactNode;
+  loadingText?: string;
   className?: string;
   loading?: boolean;
 }
 
 export function SubmitButton({
   text,
+  children,
   loadingText,
   loading,
   className,
@@ -33,7 +35,7 @@ export function SubmitButton({
       disabled={status.pending || loading}
       className={cn(className)}
     >
-      {status.pending || loading ? <Loader text={loadingText} /> : text}
+      {status.pending || loading ? <Loader text={loadingText || "Loading..."} /> : text || children}
     </button>
   );
 }

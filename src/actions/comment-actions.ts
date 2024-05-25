@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
 import { cookies } from 'next/headers';
-
+import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createCommentService } from '@/services/comment-services';
 import { config } from './config';
 
@@ -15,8 +15,17 @@ const schemaComment = z.object({
 });
 
 export async function createCommentAction(prevState: any, formData: FormData) {
+  const user = await getUserMeLoader();
+
+  if (!user.ok) return {
+    ...prevState,
+    ZodErrors: null,
+    StrapiErrors: user.error,
+    message: 'Failed to Create Comment.',
+  };
+
   const validatedFields = schemaComment.safeParse({
-    author: '1', // TODO: Get authorId from JWT cookies
+    author: user.data.id,
     content: formData.get('content'),
     date: new Date(),
     post:  formData.get('postId'), // ?? Not really secure

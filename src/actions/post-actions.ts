@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
 import { cookies } from 'next/headers';
-
+import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createPostService } from '@/services/post-services';
 import { config } from './config';
 
@@ -19,9 +19,18 @@ const schemaPost = z.object({
   comments: z.array(z.string()).default([]),
 });
 
-export async function createPostAction(formData: FormData) {
+export async function createPostAction(prevState: any, formData: FormData) {
+  const user = await getUserMeLoader();
+  
+  if (!user.ok) return {
+    ...prevState,
+    ZodErrors: null,
+    StrapiErrors: user.error,
+    message: 'Failed to Create Post.',
+  };
+
   const validatedFields = schemaPost.safeParse({
-    author: '1', // TODO: Get authorId from JWT cookies
+    author: user.data.id,
     title: formData.get('title'),
     content: formData.get('content'),
     date: new Date(),
@@ -32,6 +41,7 @@ export async function createPostAction(formData: FormData) {
 
   if (!validatedFields.success) {
     return {
+      ...prevState,
       zodErrors: validatedFields.error.flatten().fieldErrors,
       strapiErrors: null,
       message: 'Missing Fields. Failed to Create Post.',
@@ -42,6 +52,7 @@ export async function createPostAction(formData: FormData) {
 
   if (!responseData) {
     return {
+      ...prevState,
       strapiErrors: null,
       zodErrors: null,
       message: 'Ops! Something went wrong. Please try again.',
@@ -50,6 +61,7 @@ export async function createPostAction(formData: FormData) {
 
   if (responseData.error) {
     return {
+      ...prevState,
       strapiErrors: responseData.error,
       zodErrors: null,
       message: 'Failed to Create Post.',

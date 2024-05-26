@@ -9,7 +9,7 @@ interface LoginUserProps {
   password: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.API_URL;
 
 export async function registerUserService(userData: RegisterUserProps) {
   const url = new URL("/api/auth/local/register", baseUrl);

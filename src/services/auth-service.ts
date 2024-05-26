@@ -1,10 +1,10 @@
-interface RegisterUserProps {
+export interface RegisterUserProps {
   username: string;
   password: string;
   email: string;
 }
 
-interface LoginUserProps {
+export interface LoginUserProps {
   identifier: string;
   password: string;
 }

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { registerUserService, loginUserService } from "@/services/auth-service";
-const config = {
+export const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week
   path: "/",
   domain: process.env.WEB_HOST, // localhost
@@ -12,7 +12,7 @@ const config = {
   secure: process.env.NODE_ENV === "production",
 };
 
-const schemaRegister = z.object({
+export const registerSchema = z.object({
   username: z.string().min(3).max(20, {
     message: "Username must be between 3 and 20 characters",
   }),
@@ -25,7 +25,7 @@ const schemaRegister = z.object({
 });
 
 export async function registerUserAction(prevState: any, formData: FormData) {
-  const validatedFields = schemaRegister.safeParse({
+  const validatedFields = registerSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
     email: formData.get("email"),
@@ -64,7 +64,7 @@ export async function registerUserAction(prevState: any, formData: FormData) {
   redirect("/");
 }
 
-const schemaLogin = z.object({
+export const loginSchema = z.object({
   identifier: z
     .string()
     .min(3, {
@@ -84,7 +84,7 @@ const schemaLogin = z.object({
 });
 
 export async function loginUserAction(prevState: any, formData: FormData) {
-  const validatedFields = schemaLogin.safeParse({
+  const validatedFields = loginSchema.safeParse({
     identifier: formData.get("identifier"),
     password: formData.get("password"),
   });

@@ -2,7 +2,7 @@
 import { getAuthToken } from "@/services/get-token";
 // import sq from "sq";
 
-interface PostProps {
+export interface createPostProps {
   author: number;
   title: string;
   content: string;
@@ -13,7 +13,7 @@ interface PostProps {
 
 const baseUrl = process.env.API_URL;
 
-export async function createPostService(postData: PostProps) {
+export async function createPostService(postData: createPostProps) {
   const url = new URL("/api/posts", baseUrl);
   const authToken = await getAuthToken();
 

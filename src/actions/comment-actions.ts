@@ -4,7 +4,7 @@ import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createCommentService } from '@/services/comment-services';
 import { redirect } from 'next/navigation';
 
-const schemaComment = z.object({
+export const createCommentSchema = z.object({
   author: z.number(),
   content: z.string().min(1).max(512, {
     message: 'Content must be between 1 and 512 characters',
@@ -22,7 +22,7 @@ export async function createCommentAction(prevState: any, formData: FormData) {
     message: 'Failed to Create Comment.',
   };
 
-  const validatedFields = schemaComment.safeParse({
+  const validatedFields = createCommentSchema.safeParse({
     author: user.data.id, // !!! DO NOT SET JWT HERE !!!
     content: formData.get('content'),
     post:  formData.get('postId'), // ?? Not really secure

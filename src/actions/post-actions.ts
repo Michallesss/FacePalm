@@ -4,7 +4,7 @@ import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createPostService } from '@/services/post-services';
 import { redirect } from 'next/navigation';
 
-const schemaPost = z.object({
+export const createPostSchema = z.object({
   author: z.number(),
   title: z.string().min(1).max(64, {
     message: 'Title must be between 1 and 64 characters',
@@ -27,7 +27,7 @@ export async function createPostAction(prevState: any, formData: FormData) {
     message: 'Failed to Create Post.',
   };
 
-  const validatedFields = schemaPost.safeParse({
+  const validatedFields = createPostSchema.safeParse({
     author: user.data.id, // !!! NIE DZIAŁĄ !!!
     title: formData.get('title'),
     content: formData.get('content'),

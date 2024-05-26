@@ -1,6 +1,6 @@
 'use server';
 
-interface CommentProps {
+export interface CreateCommentProps {
   author: number;
   content: string;
   post: string;
@@ -8,7 +8,7 @@ interface CommentProps {
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export async function createCommentService(commentData: CommentProps) {
+export async function createCommentService(commentData: CreateCommentProps) {
   const url = new URL("/api/comments", baseUrl);
 
   try {

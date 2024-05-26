@@ -1,11 +1,7 @@
 type CommentProps = {
   content: string;
   date: string;
-  author: {
-    id: string; // To link to the author's profile
-    name: string;
-    avatar: string;
-  }
+  author: any; // TODO: imporeve this
 };
 
 export default function Comment({ content, date, author }: CommentProps) {
@@ -16,10 +12,10 @@ export default function Comment({ content, date, author }: CommentProps) {
           <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white">
             <img
               className="mr-2 w-6 h-6 rounded-full"
-              src={author.avatar}
-              alt={author.name}
+              src={"https://avatars.githubusercontent.com/u/77624159?v=4"}
+              alt={author.data.attributes.username}
             />
-            {author.name}
+            {author.data.attributes.username}
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             {date}

@@ -1,16 +1,16 @@
-type PostProps = {
-  label: string;
+import Link from "next/link";
+import { IUser } from "@/interfaces/IUser";
+
+export type PostProps = {
+  id: number;
+  title: string;
   type?: string;
   date: string;
-  text: string;
-  link: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
+  content: string;
+  author: IUser;
 };
 
-export default function Post({ label, type = "Article", date, text, link, author }: PostProps) { // https://flowbite.com/blocks/marketing/blog/
+export default function Post({ id, title, type = "Article", date, content, author }: any) { // https://flowbite.com/blocks/marketing/blog/
   return (
     <article className="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center mb-5 text-gray-500">
@@ -20,19 +20,19 @@ export default function Post({ label, type = "Article", date, text, link, author
             </span>
             <span className="text-sm">{date}</span>
         </div>
-        <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">{label}</a></h2>
-        <p className="mb-5 font-light text-gray-500 dark:text-gray-400">{text}</p>
+        <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><Link href={`/post/${id}`}>{title}</Link></h2>
+        <p className="mb-5 font-light text-gray-500 dark:text-gray-400">{content}</p>
         <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-                <img className="w-7 h-7 rounded-full" src={author.avatar} />
+                <img className="w-7 h-7 rounded-full" src={"https://avatars.githubusercontent.com/u/77624159?v=4"} alt={author.username} />
                 <span className="font-medium dark:text-white">
-                    {author.name}
+                    {author.username}
                 </span>
             </div>
-            <a href={link} className="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
+            <Link href={`/post/${id}`} className="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
                 Read more
                 <svg className="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-            </a>
+            </Link>
         </div>
     </article>              
   );

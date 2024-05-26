@@ -45,7 +45,7 @@ export async function createPostService(postData: createPostProps) {
 }
 
 export async function getPostService(postId: string) {
-  const url = new URL(`/api/posts/${postId}`, baseUrl);
+  const url = new URL(`/api/posts/${postId}?populate=*`, baseUrl); // TODO: optimize populating
 
   try {
     const response = await fetch(url, {
@@ -71,16 +71,17 @@ export async function getPostsService(sortBy: string, startPage: number, pageSiz
       by = "createdAt:desc";
       break;
     case "liked":
-      by = "reactions:desc"; // TODO: populate and count this
+      by = "reactions:desc"; // TODO: sort by views array length
       break;
     case "viewed":
-      by = "views:desc"; // ? return string :/
+      by = "views:desc";
+      break;
     case "commented":
-      by = "comments:desc"; // TODO: populate and count this
+      by = "comments:desc"; // TODO: sort by views array length
       break;
   }
 
-  const url = new URL(`/api/posts?sort[0]=${by}&pagination[page]=${startPage}&pagination[pageSize]=${pageSize}`, baseUrl);
+  const url = new URL(`/api/posts?populate=*&sort[0]=${by}&pagination[page]=${startPage}&pagination[pageSize]=${pageSize}`, baseUrl); // TODO: optimize populating
 
   try {
     const response = await fetch(url, {

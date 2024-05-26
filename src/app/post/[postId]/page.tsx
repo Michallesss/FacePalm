@@ -1,11 +1,19 @@
-'use client';
-import Comment from '@/components/Comment';
-import { createCommentAction } from '@/actions/comment-actions';
+'use client'; // ! NOT COMPLEAT 
+// Next 
+import Link from 'next/link';
+// React
+import { useState, useEffect, use } from 'react';
 import { useFormState } from 'react-dom';
+// Components
+import Comment from '@/components/Comment';
 import { ZodErrors } from '@/components/ZodErrors';
 import { StrapiErrors } from '@/components/StrapiErrors';
 import { SubmitButton } from '@/components/SubmitButton';
+// Actions || Services
+import { createCommentAction } from '@/actions/comment-actions';
+import { getPostService } from '@/services/post-services';
 
+// State
 const INITIAL_STATE = {
   zodErrors: null,
   strapiErrors: null,
@@ -13,61 +21,65 @@ const INITIAL_STATE = {
   message: null,
 }
 
+// Types || Interfaces
 type PostParams = { params: { postId: string} };
+import { IPost } from '@/interfaces/IPost';
 
 export default function Post({ params }: PostParams) { // https://flowbite.com/blocks/publisher/blog-templates/
   const [formState, formAction] = useFormState(createCommentAction, INITIAL_STATE);
+  const [data, setData] = useState<IPost>();
 
-  const content = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, animi? Esse omnis assumenda voluptas tenetur minus sequi cum nemo numquam debitis voluptatibus non porro reiciendis sapiente, repellat possimus impedit quaerat?";
-  const author = { name: "Jese Leos", avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg" };
-  const date = "Feb. 8, 2022";
-  const title = "Best practices for successful prototypes";
-  const commentsCount = 3;
-
-  // return <h1>Post: {params.postId}</h1>;
+  useEffect(() => {
+    async function fetch() {
+      const response = await getPostService(params.postId);
+      setData(response.data);
+    }
+    fetch();
+  }, []);
+  
   return (
     <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:text-white dark:bg-gray-900 antialiased">
       <div className="flex justify-between px-4 mx-auto max-w-screen-xl ">
         <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-          <header className="mb-4 lg:mb-6 not-format"> {/* Header section */}
+          <header className="mb-4 lg:mb-6 not-format">
             <address className="flex items-center mb-6 not-italic">
               <div className="inline-flex items-center mr-3 text-sm text-gray-900">
                 <img
                   className="mr-4 w-16 h-16 rounded-full"
-                  src={author.avatar}
-                  alt={author.name}
+                  src={"https://avatars.githubusercontent.com/u/77624159?v=4"}
+                  alt={data?.attributes.author?.data.attributes.username}
                 />
                 <div>
-                  <a
-                    href="#"
+                  <Link
+                    href={`/profile/${data?.attributes.author?.data.id}`}
                     rel="author"
                     className="text-xl font-bold text-gray-900 dark:text-white"
                   >
-                    {author.name}
-                  </a>
+                    {data?.attributes.author?.data.attributes.username}
+                  </Link>
                   <p className="text-base text-gray-500 dark:text-gray-400">
                     <time
                       pubdate=""
                       dateTime="2022-02-08"
                       title="February 8th, 2022"
                     >
-                      {date}
+                      {data?.attributes.createdAt}
                     </time>
                   </p>
                 </div>
               </div>
             </address>
             <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
-              {title}
+              {data?.attributes.title}
             </h1>
           </header>
           <article> {/* Content section */}
-            {content}
+            {data?.attributes.content}
           </article>
           <section className="not-format"> {/* Comment section */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Discussion ({commentsCount})
+                Discussion ({data?.attributes.comments?.data.length.toString()})
               </h2>
             </div>
             <form className="mb-6" action={formAction}>
@@ -97,10 +109,9 @@ export default function Post({ params }: PostParams) { // https://flowbite.com/b
               <StrapiErrors error={formState?.strapiErrors} />
 
             </form>
-            {/* {.map((comment, index) => ())} */}
-            <Comment content='lorem ipsum' date='Feb. 8, 2022' author={{ id: "-1", name: "Michael Gough", avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg" }} />
-            <Comment content='ipsum lorem' date='Mar. 12, 2022' author={{ id: "-1", name: "Bonnie Green", avatar: "https://flowbite.com/docs/images/people/profile-picture-3.jpg" }} />
-            <Comment content='lorem ipsum chuj' date='Jun. 23, 2022' author={{ id: "-1", name: "Helene Engels", avatar: 'https://flowbite.com/docs/images/people/profile-picture-4.jpg' }} />
+            {data?.attributes.comments?.data.map((comment, index) => (
+              <Comment key={index} content={comment.attributes.content} date={comment.attributes.createdAt} author={data?.attributes.author} /* filled with wrong data */ />
+            ))}
           </section>
         </article>
       </div>

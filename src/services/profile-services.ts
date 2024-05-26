@@ -1,5 +1,5 @@
 'use server';
 
-export default async function getProfile(profileId: string) {
+export async function getProfileService(profileId: string) {
   
 }

@@ -69,7 +69,7 @@ export async function getPostsService(sortBy: string, startPage: number, pageSiz
       break;
   }
 
-  const url = new URL(`/api/posts?sort[0]=${by}?pagination[page]=${startPage}?pagination[pageSize]=${pageSize}`, baseUrl);
+  const url = new URL(`/api/posts?sort[0]=${by}&pagination[page]=${startPage}&pagination[pageSize]=${pageSize}`, baseUrl);
 
   try {
     const response = await fetch(url, {

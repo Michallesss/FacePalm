@@ -1,7 +1,9 @@
 'use server';
+// Services
 import { getAuthToken } from "@/services/get-token";
 // import sq from "sq";
 
+// Types || Interfaces
 export interface createPostProps {
   author: number;
   title: string;
@@ -10,6 +12,13 @@ export interface createPostProps {
   comments: number[];
   reactions: number[];
 };
+
+// import { IPost } from "@/interfaces/IPost";
+// export interface getPostsProps {
+//   data: [
+//     IPost
+//   ]
+// }
 
 const baseUrl = process.env.API_URL;
 
@@ -59,13 +68,15 @@ export async function getPostsService(sortBy: string, startPage: number, pageSiz
   let by = "";
   switch (sortBy) {
     case "newest":
-      by = "date:desc";
+      by = "createdAt:desc";
       break;
     case "liked":
-      by = "likes:desc";
+      by = "reactions:desc"; // TODO: populate and count this
       break;
+    case "viewed":
+      by = "views:desc"; // ? return string :/
     case "commented":
-      by = "comments:desc"; // TODO: check this
+      by = "comments:desc"; // TODO: populate and count this
       break;
   }
 

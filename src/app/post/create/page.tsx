@@ -1,12 +1,15 @@
 'use client';
+// React
+import { useFormState } from "react-dom";
+// Components
 import Form from '@/layouts/Form';
 import Input from '@/components/Input';
 import { SubmitButton } from "@/components/SubmitButton";
 import { createPostAction } from "@/actions/post-actions";
-import { useFormState } from "react-dom";
 import { ZodErrors } from "@/components/ZodErrors";
 import { StrapiErrors } from "@/components/StrapiErrors";
 
+// State
 const INITIAL_STATE = {
   zodErrors: null,
   strapiErrors: null,

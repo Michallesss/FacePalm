@@ -1,12 +1,16 @@
 'use client';
+// React
+import { useFormState } from "react-dom";
+// Components
 import Form from '@/layouts/Form';
 import Input from '@/components/Input';
-import { useFormState } from "react-dom";
-import { loginUserAction } from "@/actions/auth-actions";
 import { ZodErrors } from "@/components/ZodErrors";
 import { StrapiErrors } from "@/components/StrapiErrors";
 import { SubmitButton } from "@/components/SubmitButton";
+// Services || Actions
+import { loginUserAction } from "@/actions/auth-actions";
 
+// State
 const INITIAL_STATE = {
   zodErrors: null,
   strapiErrors: null,

@@ -3,7 +3,6 @@
 interface CommentProps {
   author: number;
   content: string;
-  date: Date;
   post: string;
 };
 
@@ -30,5 +29,5 @@ export async function createCommentService(commentData: CommentProps) {
 }
 
 export async function getCommentsService(postId: string) {
-  
+  // ? localhost:1337/api/comments?post=1
 }

@@ -9,7 +9,6 @@ const schemaComment = z.object({
   content: z.string().min(1).max(512, {
     message: 'Content must be between 1 and 512 characters',
   }),
-  date: z.date().default(() => new Date()),
   post: z.string(),
 });
 
@@ -26,7 +25,6 @@ export async function createCommentAction(prevState: any, formData: FormData) {
   const validatedFields = schemaComment.safeParse({
     author: user.data.id, // !!! DO NOT SET JWT HERE !!!
     content: formData.get('content'),
-    date: new Date(),
     post:  formData.get('postId'), // ?? Not really secure
   });
 

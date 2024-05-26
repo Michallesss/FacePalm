@@ -12,9 +12,7 @@ const schemaPost = z.object({
   content: z.string().min(1).max(1024, {
     message: 'Content must be between 1 and 1024 characters',
   }),
-  date: z.date().default(() => new Date()),
   views: z.number().default(0),
-  likes: z.number().default(0),
   comments: z.array(z.number()).default([]),
   reactions: z.array(z.number()).default([]),
 });
@@ -33,9 +31,7 @@ export async function createPostAction(prevState: any, formData: FormData) {
     author: user.data.id, // !!! NIE DZIAŁĄ !!!
     title: formData.get('title'),
     content: formData.get('content'),
-    date: new Date(),
     views: 0,
-    likes: 0,
     comments: [],
     reactions: [],
   });

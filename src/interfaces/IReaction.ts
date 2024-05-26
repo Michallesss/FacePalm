@@ -1,14 +1,13 @@
-import { IUser } from "./IUser";
 import { IPost } from "./IPost";
+import { IUser } from "./IUser";
 
-export interface IComment {
+export interface IReaction {
   id: number;
   attributes: {
-    content: string;
     createdAt: string;
     updatedAt: string;
-    publishedAd: string;
-    author?: {
+    publishedAt: string;
+    author: {
       data: {
         id: IUser['id'];
         attributes: {
@@ -19,10 +18,10 @@ export interface IComment {
           blocked: IUser['blocked'];
           createdAt: IUser['createdAt'];
           updatedAt: IUser['updatedAd'];
-        }
-      }
+        };
+      };
     };
-    post?: {
+    post: {
       data: {
         id: IPost['id'];
         attributes: {
@@ -34,6 +33,6 @@ export interface IComment {
           publishedAt: IPost['attributes']['publishedAt'];
         }
       }
-    }
-  }
-}
+    };
+  };
+};

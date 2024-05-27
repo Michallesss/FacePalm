@@ -4,7 +4,7 @@ import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createPostService } from '@/services/post-services';
 import { redirect } from 'next/navigation';
 
-export const createPostSchema = z.object({
+const createPostSchema = z.object({
   author: z.number(),
   title: z.string().min(1).max(64, {
     message: 'Title must be between 1 and 64 characters',

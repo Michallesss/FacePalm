@@ -4,7 +4,7 @@ import { getUserMeLoader } from "@/services/get-user-me-loader";
 import { createCommentService } from '@/services/comment-services';
 import { redirect } from 'next/navigation';
 
-export const createCommentSchema = z.object({
+const createCommentSchema = z.object({
   author: z.number(),
   content: z.string().min(1).max(512, {
     message: 'Content must be between 1 and 512 characters',

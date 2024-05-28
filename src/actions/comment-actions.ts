@@ -23,9 +23,9 @@ export async function createCommentAction(prevState: any, formData: FormData) {
   };
 
   const validatedFields = createCommentSchema.safeParse({
-    author: user.data.id, // !!! DO NOT SET JWT HERE !!!
+    author: user.data.id, // !!! NIE DZIAŁĄ !!!
     content: formData.get('content'),
-    post:  formData.get('postId'), // ?? Not really secure
+    post:  formData.get('postId'), // !!! NIE DZIAŁĄ !!!
   });
 
   if (!validatedFields.success) {

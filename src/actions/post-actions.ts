@@ -6,15 +6,15 @@ import { redirect } from 'next/navigation';
 
 const createPostSchema = z.object({
   author: z.number(),
-  title: z.string().min(1).max(64, {
+  title: z.string().min(1).max(128, {
     message: 'Title must be between 1 and 64 characters',
   }),
-  content: z.string().min(1).max(1024, {
+  content: z.string().min(1).max(4096, {
     message: 'Content must be between 1 and 1024 characters',
   }),
-  views: z.number().default(0),
-  comments: z.array(z.number()).default([]),
-  reactions: z.array(z.number()).default([]),
+  // views: z.number().default(0),
+  // comments: z.array(z.number()).default([]),
+  // reactions: z.array(z.number()).default([]),
 });
 
 export async function createPostAction(prevState: any, formData: FormData) {
@@ -31,9 +31,9 @@ export async function createPostAction(prevState: any, formData: FormData) {
     author: user.data.id, // !!! NIE DZIAŁĄ !!!
     title: formData.get('title'),
     content: formData.get('content'),
-    views: 0,
-    comments: [],
-    reactions: [],
+    // views: 0,
+    // comments: [],
+    // reactions: [],
   });
 
   if (!validatedFields.success) {

@@ -8,17 +8,10 @@ export interface createPostProps {
   author: number;
   title: string;
   content: string;
-  views: number;
-  comments: number[];
-  reactions: number[];
+  // views: number;
+  // comments: number[];
+  // reactions: number[];
 };
-
-// import { IPost } from "@/interfaces/IPost";
-// export interface getPostsProps {
-//   data: [
-//     IPost
-//   ]
-// }
 
 const baseUrl = process.env.API_URL;
 
